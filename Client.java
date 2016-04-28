@@ -34,7 +34,9 @@ public class Client {
             System.out.println(sh);
             selection = keyboard.nextInt();
             while (__handler(selection) == 999) {
-
+            System.out.println(" Try Again Invalid Selection");
+            System.out.println(sh);
+            selection = keyboard.nextInt();
             }
         }
                 out.writeUTF(Integer.toString(value));
