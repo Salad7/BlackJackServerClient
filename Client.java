@@ -12,8 +12,10 @@ public class Client {
     static boolean isError = true;
     public static void main (String[] args) throws IOException{
         String term = "";
+        int selection;
         String serverName = "127.0.0.1"; //Our Server Name
         int value = 0;
+        String sh = "Take a hit (1) or Stand (2)";
         int port = 80; //Our Server port
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Connecting : " + serverName + " To Port : "  + port);
@@ -29,9 +31,11 @@ public class Client {
 
         while(isError == true) {
             System.out.println("Player One has : " + value);
-            System.out.println("Take a hit (1) or Stand (2)");
-            term = keyboard.next();
-            __handler(value);
+            System.out.println(sh);
+            selection = keyboard.nextInt();
+            while (__handler(selection) == 999) {
+
+            }
         }
                 out.writeUTF(Integer.toString(value));
                 out.flush( );
@@ -48,10 +52,21 @@ public class Client {
         client.close();
     }
 
-    public static void __handler(int val)
+    public static int __handler(int selection)
     {
+     if(selection == 1)
+     {
 
+     }
+     else if (selection == 2)
+     {
 
-    }
+     }
+        else
+     {
+        return 999;
+     }
+        return 111;
+     }
 
 }
