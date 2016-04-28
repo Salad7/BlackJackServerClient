@@ -13,6 +13,7 @@ public class Client {
     public static void main (String[] args) throws IOException{
         String term = "";
         String serverName = "127.0.0.1"; //Our Server Name
+        int value = 0;
         int port = 80; //Our Server port
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Connecting : " + serverName + " To Port : "  + port);
@@ -27,11 +28,12 @@ public class Client {
             DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
 
         while(isError == true) {
-            System.out.print("Enter a degree to be converted : ");
+            System.out.println("Player One has : " + value);
+            System.out.println("Take a hit (1) or Stand (2)");
             term = keyboard.next();
-            __handler(term);
+            __handler(value);
         }
-                out.writeUTF(term);
+                out.writeUTF(Integer.toString(value));
                 out.flush( );
 
 
@@ -46,28 +48,9 @@ public class Client {
         client.close();
     }
 
-    public static void __handler(String degree)
+    public static void __handler(int val)
     {
-        String value = "";
-        char CorF = degree.charAt(degree.length()-1);
-        for(int i = 0; i < degree.length()-1; i++)
-        {
-            value = value + Character.toString(degree.charAt(i));
-        }
 
-        if(CorF == 'F')
-        {
-            isError = false;
-
-        }
-        else if (CorF == 'C') {
-            isError = false;
-        }
-        else //Other wise we have an error
-        {
-            System.out.println( "Could not understand that request, please try again (End with C or F)");
-            isError = true;
-        }
 
     }
 
