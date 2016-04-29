@@ -33,8 +33,8 @@ public class Client {
             System.out.println("Player One has : " + value);
             System.out.println(sh);
             selection = keyboard.nextInt();
-            while (__handler(selection) == 999) {
-            System.out.println(" Try Again Invalid Selection");
+            while (__handler(selection) != 1 || __handler(selection) != 2) {
+            System.out.println("Try Again Invalid Selection");
             System.out.println(sh);
             selection = keyboard.nextInt();
             }
