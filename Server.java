@@ -54,15 +54,15 @@ private ServerSocket serverSocket;
                     //We want to send a random score 1-14
                     rand = new Random();
                     int temp = rand.nextInt(14);
-                    if(temp >= 11)
-                    {
-                        score = 10;
-                    }
-                    else
-                    {
-                        score = temp;
-                        p1 = p1 + score;
-                    }
+                    //if(temp >= 11)
+                    //{
+                      //  score = 10;
+                    //}
+                    //else
+                    //{
+                      //  score = temp;
+                        //p1 = p1 + score;
+                    //}
 
                 }
 

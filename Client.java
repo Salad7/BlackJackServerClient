@@ -9,10 +9,11 @@ import java.util.Scanner;
 
 public class Client {
 
-    static boolean isError = true;
+    static boolean isOver = true;
     public static void main (String[] args) throws IOException{
         String term = "";
         int selection = 0;
+        int score = 0;
         String serverName = "127.0.0.1"; //Our Server Name
         int value = 0;
         String sh = "Take a hit (1) or Stand (2)";
@@ -29,7 +30,7 @@ public class Client {
             OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
             DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
 
-        while(isError == true) {
+       // while(isOver == false) {
             System.out.println("Player One has : " + value);
             System.out.println(sh);
             selection = keyboard.nextInt();
@@ -38,7 +39,7 @@ public class Client {
             System.out.println(sh);
             selection = keyboard.nextInt();
             }
-        }
+        //}
                 out.writeUTF(Integer.toString(selection));
                 out.flush( );
 
@@ -48,6 +49,15 @@ public class Client {
                 InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
                 DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
                 System.out.println("Value returned : " + dataInputStream.readUTF()); // Return what is read as a string
+
+        if(Integer.parseInt(dataInputStream.readUTF()) >= 11)
+        {
+            score = 10;
+        }
+        else
+        {
+            value = value + score;
+        }
 
 
 
