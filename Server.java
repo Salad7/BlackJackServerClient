@@ -53,7 +53,7 @@ private ServerSocket serverSocket;
                 {
                     //We want to send a random score 1-14
                     rand = new Random();
-                    int temp = rand.nextInt(14);
+                    temp = rand.nextInt(14);
                     //if(temp >= 11)
                     //{
                       //  score = 10;
@@ -70,7 +70,7 @@ private ServerSocket serverSocket;
 
 
                DataOutputStream dataOutputStream = new DataOutputStream(server.getOutputStream());
-                dataOutputStream.writeUTF("Your score is : "+p1);
+                dataOutputStream.writeUTF(Integer.toString(temp));
                 dataOutputStream.flush();
 
 
@@ -91,6 +91,7 @@ private ServerSocket serverSocket;
     int p2 = 0;
     int score = 0;
     Random rand;
+    int temp = 0;
     public static void main(String [] args)
     {
         int port = 9999;

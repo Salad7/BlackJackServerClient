@@ -34,7 +34,7 @@ public class Client {
             System.out.println("Player One has : " + value);
             System.out.println(sh);
             selection = keyboard.nextInt();
-            while (__handler(selection) != 1 || __handler(selection) != 2) {
+            while (__handler(selection) != 1 && __handler(selection) != 2) {
             System.out.println("Try Again Invalid Selection");
             System.out.println(sh);
             selection = keyboard.nextInt();
@@ -48,7 +48,7 @@ public class Client {
 
                 InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
                 DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
-                System.out.println("Value returned : " + dataInputStream.readUTF()); // Return what is read as a string
+
 
         if(Integer.parseInt(dataInputStream.readUTF()) >= 11)
         {
@@ -56,10 +56,10 @@ public class Client {
         }
         else
         {
-            value = value + score;
+            value = value + Integer.parseInt(dataInputStream.readUTF());
         }
 
-
+        System.out.println("New score : " + value); // Return what is read as a string
 
         client.close();
     }
