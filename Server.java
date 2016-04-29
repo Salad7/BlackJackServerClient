@@ -51,7 +51,17 @@ private ServerSocket serverSocket;
                 if(dataInputStream.readUTF().equals("1"))
                 {
                     //We want to send a random score 1-14
-                    rand = new Random(14);
+                    rand = new Random();
+                    int temp = rand.nextInt(14);
+                    if(temp >= 11)
+                    {
+                        score = 10;
+                    }
+                    else
+                    {
+                        score = temp;
+                        p1 = p1 + score;
+                    }
 
                 }
 
@@ -59,7 +69,7 @@ private ServerSocket serverSocket;
 
 
                DataOutputStream dataOutputStream = new DataOutputStream(server.getOutputStream());
-                dataOutputStream.writeUTF("Converted value is : ");
+                dataOutputStream.writeUTF("Your score is : "+p1);
                 dataOutputStream.flush();
 
 
@@ -78,7 +88,7 @@ private ServerSocket serverSocket;
 
     int p1 = 0;
     int p2 = 0;
-    int score;
+    int score = 0;
     Random rand;
     public static void main(String [] args)
     {
