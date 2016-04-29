@@ -12,11 +12,11 @@ public class Client {
     static boolean isError = true;
     public static void main (String[] args) throws IOException{
         String term = "";
-        int selection;
+        int selection = 0;
         String serverName = "127.0.0.1"; //Our Server Name
         int value = 0;
         String sh = "Take a hit (1) or Stand (2)";
-        int port = 80; //Our Server port
+        int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Connecting : " + serverName + " To Port : "  + port);
 
@@ -39,7 +39,7 @@ public class Client {
             selection = keyboard.nextInt();
             }
         }
-                out.writeUTF(Integer.toString(value));
+                out.writeUTF(Integer.toString(selection));
                 out.flush( );
 
 
@@ -47,7 +47,7 @@ public class Client {
 
                 InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
                 DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
-                System.out.println("The Converted value is : " + dataInputStream.readUTF()); // Return what is read as a string
+                System.out.println("Value returned : " + dataInputStream.readUTF()); // Return what is read as a string
 
 
 
@@ -58,17 +58,16 @@ public class Client {
     {
      if(selection == 1)
      {
-
+        return 1;
      }
      else if (selection == 2)
      {
-
+        return 2;
      }
         else
      {
         return 999;
      }
-        return 111;
      }
 
 }
