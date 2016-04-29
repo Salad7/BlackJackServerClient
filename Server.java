@@ -2,6 +2,7 @@
 
 import java.net.*;
 import java.io.*;
+import java.util.Random;
 
 /**
  * Created by Salad on 3/6/2016.
@@ -46,7 +47,13 @@ private ServerSocket serverSocket;
 
                 //Read input from the client
                 DataInputStream dataInputStream = new DataInputStream(server.getInputStream());
+                //If we decide to hit
+                if(dataInputStream.readUTF().equals("1"))
+                {
+                    //We want to send a random score 1-14
+                    rand = new Random(14);
 
+                }
 
                 ;
 
@@ -69,12 +76,13 @@ private ServerSocket serverSocket;
 
     }
 
+    int p1 = 0;
+    int p2 = 0;
+    int score;
+    Random rand;
     public static void main(String [] args)
     {
         int port = 80;
-        int p1 = 0;
-        int p2 = 0;
-        int dealer = 0;
         try
         {
             Thread t = new Server(port);
