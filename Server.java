@@ -46,9 +46,10 @@ private ServerSocket serverSocket;
             try {
 
                 //Read input from the client
-                DataInputStream dataInputStream = new DataInputStream(server.getInputStream());
+                InputStream inputStream = server.getInputStream();
+                DataInputStream dataInputStream = new DataInputStream(inputStream);
                 //If we decide to hit
-                System.out.println("Recieved " + dataInputStream.readUTF());
+                //System.out.println("Receieved " + dataInputStream.readUTF());
                 if(dataInputStream.readUTF().equals("1"))
                 {
                     //We want to send a random score 1-14
