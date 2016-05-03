@@ -93,16 +93,27 @@ public class Client {
         System.out.println("Just connected to " + client.getRemoteSocketAddress());
 
         while(selection.equals("S") == false || selection.equals("H") == false) {
-            while (selection.equals("H")) {
+            while (isTurn == true) {
                 //Ask to Hit or Stand
                 System.out.println(sh);
                 selection = keyboard.nextLine();
-                //Send the H to the Server
-                out.writeUTF(selection);
-                out.flush( );
-                //And server score to our score
-                serverValue = Integer.parseInt(dataInputStream.readUTF());
-                score += conversion(serverValue);
+                //If selection = H
+                if(selection.equals("H")) {
+                    //Send the H to the Server
+                    out.writeUTF(selection);
+                    out.flush();
+                    //And server score to our score
+                    serverValue = Integer.parseInt(dataInputStream.readUTF());
+                    score += conversion(serverValue);
+                }
+                if(selection.equals("S"))
+                {
+                    isTurn = false;
+                }
+                else
+                {
+                    System.out.println("Input is invalid.");
+                }
                 //Loop back until stand
             }
         }

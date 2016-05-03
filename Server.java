@@ -16,6 +16,12 @@ public class Server extends Thread implements Runnable{
     private boolean isGameOver = false;
     private Random rand;
     private int scoreToAdd;
+    OutputStream outputStream;
+    DataOutputStream out;
+
+    //InputStream is used for reading
+    InputStream inputStream;
+    DataInputStream dataInputStream;
 
     public Server(int port) throws  IOException
     {
@@ -43,6 +49,13 @@ public class Server extends Thread implements Runnable{
 
             // Get a client trying to connect
             server = serverSocket.accept();
+           outputStream = server.getOutputStream(); //Create a stream for sending data
+           out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
+
+            //InputStream is used for reading
+            inputStream = server.getInputStream(); //Read the incoming stream as bytes
+            dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
+
             // Client has connected
             System.out.println("Found Client "+ (clients.size()+1));
             // Add user to list
@@ -69,6 +82,11 @@ public class Server extends Thread implements Runnable{
                     if(clients.get(0).isTurn)
                     {
                         System.out.println("Player 1's Turn");
+                        if(dataInputStream.readUTF().equals("H"))
+                        {
+                            //Send a random number 1-13
+                            out.writeUTF(Integer.toString(rand.nextInt(13)+1));
+                        }
 
                     }
                     else if (clients.get(1).isTurn)
@@ -112,6 +130,7 @@ public class Server extends Thread implements Runnable{
     public static void main(String [] args)
     {
         int port = 9999;
+
         try
         {
             Thread t = new Server(port);
