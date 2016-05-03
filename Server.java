@@ -2,6 +2,7 @@
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -9,7 +10,9 @@ import java.util.Random;
  */
 public class Server extends Thread implements Runnable{
 
-private ServerSocket serverSocket;
+    private ServerSocket serverSocket;
+    private Socket socket;
+    private ArrayList<Client> clients = new ArrayList<Client>();
 
     public Server(int port) throws  IOException
     {
@@ -30,7 +33,8 @@ private ServerSocket serverSocket;
 
 
         try {
-            server = serverSocket.accept();
+                // Get a client trying to connect
+                server = serverSocket.accept();
             ;
 
             //If the server is accepted, connect the user
@@ -44,44 +48,36 @@ private ServerSocket serverSocket;
         while (true)
         {
             try {
-
+                    socket = serverSocket.accept();
                 //Read input from the client
-                InputStream inputStream = server.getInputStream();
-                DataInputStream dataInputStream = new DataInputStream(inputStream);
+                //DataInputStream dataInputStream = new DataInputStream(server.getInputStream());
                 //If we decide to hit
-                //System.out.println("Receieved " + dataInputStream.readUTF());
-                if(dataInputStream.readUTF().equals("1"))
-                {
+                //if(dataInputStream.readUTF().equals("1"))
+                //{
                     //We want to send a random score 1-14
-                    rand = new Random();
-                    temp = rand.nextInt(14);
-                    //if(temp >= 11)
-                    //{
-                      //  score = 10;
-                    //}
-                    //else
-                    //{
-                      //  score = temp;
-                        //p1 = p1 + score;
-                    //}
+                    //rand = new Random();
+                  //  temp = rand.nextInt(14);
 
-                }
-
-                ;
+                //}
 
 
-               DataOutputStream dataOutputStream = new DataOutputStream(server.getOutputStream());
-                dataOutputStream.writeUTF(Integer.toString(temp));
-                dataOutputStream.flush();
+               //DataOutputStream dataOutputStream = new DataOutputStream(server.getOutputStream());
+                //dataOutputStream.writeUTF(Integer.toString(temp));
+                //dataOutputStream.flush();
 
 
-                   server.close();
+                  // server.close();
             }
              catch (IOException e)
             {
                 e.printStackTrace();
                 break;
             }
+            // Client has connected
+            System.out.println("Client "+socket+" has connected.");
+            // Add user to list
+            clients.add(new Client(socket));
+            // Sleep
 
         }
 
