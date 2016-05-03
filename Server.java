@@ -34,6 +34,10 @@ public class Server extends Thread implements Runnable{
         System.out.println("Server started. Finding Clients...");
         //System.out.println("Waiting for client on port : " + serverSocket.getLocalPort() + " ... ");
         Socket server = null;
+        DataOutputStream dataOutputStream ;
+        //InputStream is used for reading
+        InputStream inputStream; //Read the incoming stream as bytes
+        DataInputStream dataInputStream; //Read the inputStream and convert to primative times
 
 
 
@@ -43,10 +47,14 @@ public class Server extends Thread implements Runnable{
 
             // Get a client trying to connect
             server = serverSocket.accept();
+            //dataOutputStream = new DataOutputStream(server.getOutputStream());
+            //inputStream = server.getInputStream();
+            //dataInputStream = new DataInputStream(inputStream);
+
             // Client has connected
             System.out.println("Found Client "+ (clients.size()+1));
             // Add user to list
-            clients.add(new Client(server));
+            clients.add(new Client(server,1));
         }
         catch (IOException e)
         {
@@ -57,19 +65,26 @@ public class Server extends Thread implements Runnable{
         {
             try {
                     socket = serverSocket.accept();
+                dataOutputStream = new DataOutputStream(server.getOutputStream());
+                inputStream = server.getInputStream();
+                dataInputStream = new DataInputStream(inputStream);
                 // Client has connected
                 System.out.println("Found Client "+ (clients.size()+1));
                 System.out.println("Initiating Game...");
                 // Add user to list
-                clients.add(new Client(socket));
-                clients.get(0).isTurn = false;
+                clients.add(new Client(socket,2));
+                clients.get(0).isTurn = true;
 
                 while(isGameOver == false || ((clients.get(0).standOrHit.equals("stand") && clients.get(1).standOrHit.equals("stand")) == false))
                 {
                     if(clients.get(0).isTurn)
                     {
                         System.out.println("Player 1's Turn");
-
+                        if(dataInputStream.readUTF().equals("H"))
+                        {
+                            //Works
+                            System.out.println("d");
+                        }
                     }
                     else if (clients.get(1).isTurn)
                     {

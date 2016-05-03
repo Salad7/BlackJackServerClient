@@ -11,15 +11,22 @@ import java.util.Scanner;
 
 public class Client {
 
+    String standOrHit = "";
     private Socket socket;
     private boolean connected;
     private Inport inport;
-    static boolean isTurn = false;
-    String standOrHit = "";
+    public static boolean isTurn = false;
+    public static int score = 0;
+    public static int serverValue = 0;
+    public static String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:" + score;
+    public static String selection = "";
+    public static Scanner keyboard = new Scanner(System.in);
+    public static int id;
 
-    public Client(Socket newSocket)
+    public Client(Socket newSocket,int ID)
     {
         // Set properties
+        id = ID;
         socket = newSocket;
         connected = true;
         // Get input
@@ -61,7 +68,7 @@ public class Client {
                 // Sleep
                 try
                 {
-                    Thread.sleep(2000);
+                    System.out.println("It's your turn");
                 }
                 catch(Exception e)
                 {
@@ -71,6 +78,7 @@ public class Client {
         }
     }
 
+
     public static void main (String[] args) throws IOException{
         String selection = "";
         String serverName = "127.0.0.1"; //Our Server Name
@@ -79,9 +87,12 @@ public class Client {
         String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:"+score;
         int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
-        //System.out.println("Connecting : " + serverName + " To Port : "  + port);
-
+        System.out.println("Fetching server connection...");
         Socket client = new Socket(serverName, port); //Create a Client Socket and attempt to connect to the server @ port
+        System.out.println("Connection Established.");
+        System.out.println("Fetching Player ID...");
+        System.out.println("Game Found you're Player "+Client.id+".");
+        System.out.println("Waiting for server...");
 
         OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
         DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
@@ -90,18 +101,16 @@ public class Client {
         InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
         DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
 
-        System.out.println("Just connected to " + client.getRemoteSocketAddress());
-
-        while(selection.equals("S") == false || selection.equals("H") == false) {
+        while (selection.equals("S") == false || selection.equals("H") == false) {
+            //Ask to Hit or Stand
+            System.out.println(sh);
+            selection = keyboard.nextLine();
             while (selection.equals("H")) {
-                //Ask to Hit or Stand
-                System.out.println(sh);
-                selection = keyboard.nextLine();
                 //Send the H to the Server
                 out.writeUTF(selection);
                 out.flush( );
                 //And server score to our score
-                serverValue = Integer.parseInt(dataInputStream.readUTF());
+                serverValue = Integer.parseInt("1"/*dataInputStream.readUTF()*/);
                 score += conversion(serverValue);
                 //Loop back until stand
             }
