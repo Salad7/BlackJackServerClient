@@ -71,7 +71,7 @@ public class Client {
         String sh = "Take a hit (1) or Stand (2)";
         int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Connecting : " + serverName + " To Port : "  + port);
+        //System.out.println("Connecting : " + serverName + " To Port : "  + port);
 
             Socket client = new Socket(serverName, port); //Create a Client Socket and attempt to connect to the server @ port
 
@@ -82,15 +82,16 @@ public class Client {
             OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
             DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
 
-
             System.out.println("Player One has : " + value);
             System.out.println(sh);
             selection = keyboard.nextInt();
-            while (__handler(selection) != 1 && __handler(selection) != 2) {
+
+            while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
             System.out.println("Try Again Invalid Selection");
             System.out.println(sh);
             selection = keyboard.nextInt();
             }
+
                 out.writeUTF(Integer.toString(selection));
                 out.flush( );
 

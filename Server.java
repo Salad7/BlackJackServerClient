@@ -35,6 +35,10 @@ public class Server extends Thread implements Runnable{
         try {
                 // Get a client trying to connect
                 server = serverSocket.accept();
+            // Client has connected
+            System.out.println("Player "+ clients.size()+1 +" has connected.");
+            // Add user to list
+            clients.add(new Client(server));
             ;
 
             //If the server is accepted, connect the user
@@ -49,6 +53,10 @@ public class Server extends Thread implements Runnable{
         {
             try {
                     socket = serverSocket.accept();
+                // Client has connected
+                System.out.println("Player "+ (clients.size()+1) +" has connected.");
+                // Add user to list
+                clients.add(new Client(socket));
                 //Read input from the client
                 //DataInputStream dataInputStream = new DataInputStream(server.getInputStream());
                 //If we decide to hit
@@ -73,11 +81,6 @@ public class Server extends Thread implements Runnable{
                 e.printStackTrace();
                 break;
             }
-            // Client has connected
-            System.out.println("Client "+socket+" has connected.");
-            // Add user to list
-            clients.add(new Client(socket));
-            // Sleep
 
         }
 
