@@ -64,34 +64,48 @@ public class Client {
     }
 
     public static void main (String[] args) throws IOException{
-        int selection = 0;
+        String selection = "";
         String serverName = "127.0.0.1"; //Our Server Name
-        int value = 0;
-        String sh = "Take a hit (1) or Stand (2)";
+        int score = 0;
+        String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:"+score;
         int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
         //System.out.println("Connecting : " + serverName + " To Port : "  + port);
 
-            Socket client = new Socket(serverName, port); //Create a Client Socket and attempt to connect to the server @ port
+        Socket client = new Socket(serverName, port); //Create a Client Socket and attempt to connect to the server @ port
 
-            System.out.println("Just connected to "
-                    + client.getRemoteSocketAddress());
+        OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
+        DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
+
+        System.out.println("Just connected to " + client.getRemoteSocketAddress());
+
+        while(selection.equals("S") == false || selection.equals("H") == false) {
+            while (selection != "S") {
+                //Ask to Hit or Stand
+                System.out.println(sh);
+                selection = keyboard.nextLine();
+                //Send the H to the Server
+
+                //And server score to our score
+
+                //Loop back until stand
+            }
+        }
 
 
-            OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
-            DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
+
 
             //System.out.println("Player One has : " + value);
             //System.out.println(sh);
             //selection = keyboard.nextInt();
 
             //while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
-            System.out.println("Try Again Invalid Selection");
-            System.out.println(sh);
-            selection = keyboard.nextInt();
+            //System.out.println("Try Again Invalid Selection");
+            //System.out.println(sh);
+            //selection = keyboard.nextInt();
             //}
 
-                out.writeUTF(Integer.toString(selection));
+                //out.writeUTF(Integer.toString(selection));
                 out.flush( );
 
 
@@ -106,12 +120,12 @@ public class Client {
         }
         else
         {
-            value = value + Integer.parseInt(dataInputStream.readUTF());
+            //value = value + Integer.parseInt(dataInputStream.readUTF());
         }
 
-        System.out.println("New score : " + value); // Return what is read as a string
+        //System.out.println("New score : " + value); // Return what is read as a string
 
-        client.close();
+        //client.close();
     }
 
 

@@ -14,10 +14,13 @@ public class Server extends Thread implements Runnable{
     private Socket socket;
     private ArrayList<Client> clients = new ArrayList<Client>();
     private boolean isGameOver = false;
+    private Random rand;
+    private int scoreToAdd;
 
     public Server(int port) throws  IOException
     {
         serverSocket = new ServerSocket(port,2);
+        rand = new Random();
 
     }
 
@@ -66,6 +69,7 @@ public class Server extends Thread implements Runnable{
                     if(clients.get(0).isTurn)
                     {
                         System.out.println("Player 1's Turn");
+
                     }
                     else if (clients.get(1).isTurn)
                     {
