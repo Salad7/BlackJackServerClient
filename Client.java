@@ -23,8 +23,7 @@ public class Client {
     public static Scanner keyboard = new Scanner(System.in);
     public static int id;
 
-    public Client(Socket newSocket,int ID)
-    {
+    public Client(Socket newSocket, int ID) {
         // Set properties
         id = ID;
         socket = newSocket;
@@ -33,65 +32,56 @@ public class Client {
         inport = new Inport();
         inport.start();
     }
-    public static int conversion(int serverValue){
-        if(serverValue >= 10)
-        {
+
+    public static int conversion(int serverValue) {
+        if (serverValue >= 10) {
             return 10;
-        }
-        else
+        } else
             return serverValue;
     }
 
     /**
      * Handles all incoming data from this user.
      */
-    private class Inport extends Thread
-    {
+    private class Inport extends Thread {
         private ObjectInputStream in;
-        public void run()
-        {
+
+        public void run() {
             // Open the InputStream
-            try
-            {
+            try {
                 in = new ObjectInputStream(socket.getInputStream());
-            }
-            catch(IOException e)
-            {
-                System.out.println("Could not get input stream from "+toString());
+            } catch (IOException e) {
+                System.out.println("Could not get input stream from " + toString());
                 return;
             }
             // Announce
-            System.out.println(socket+" has connected input.");
+            System.out.println(socket + " has connected input.");
             // Enter process loop
-            while(true)
-            {
+            while (true) {
                 // Sleep
-                try
-                {
+                try {
                     System.out.println("It's your turn");
-                }
-                catch(Exception e)
-                {
-                    System.out.println(toString()+" has input interrupted.");
+                } catch (Exception e) {
+                    System.out.println(toString() + " has input interrupted.");
                 }
             }
         }
     }
 
 
-    public static void main (String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         String selection = "";
         String serverName = "127.0.0.1"; //Our Server Name
         int score = 0;
-        int serverValue =0;
-        String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:"+score;
+        int serverValue = 0;
+        String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:" + score;
         int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Fetching server connection...");
         Socket client = new Socket(serverName, port); //Create a Client Socket and attempt to connect to the server @ port
         System.out.println("Connection Established.");
         System.out.println("Fetching Player ID...");
-        System.out.println("Game Found you're Player "+Client.id+".");
+        System.out.println("Game Found you're Player " + Client.id + ".");
         System.out.println("Waiting for server...");
 
         OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
@@ -102,39 +92,42 @@ public class Client {
         DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
 
         while (selection.equals("S") == false || selection.equals("H") == false) {
-            //Ask to Hit or Stand
-            System.out.println(sh);
-            selection = keyboard.nextLine();
-            while (selection.equals("H")) {
-                //Send the H to the Server
-                out.writeUTF(selection);
-                out.flush( );
-                //And server score to our score
-                serverValue = Integer.parseInt("1"/*dataInputStream.readUTF()*/);
-                score += conversion(serverValue);
-                //Loop back until stand
-            }
-        }
+            //if (isTurn) {
+
+                //Ask to Hit or Stand
+                System.out.println(sh);
+                selection = keyboard.nextLine();
+                while (selection.equals("H")) {
+                    //Send the H to the Server
+                    out.writeUTF(selection);
+                    out.flush();
+                    //Add server score to our score
+                    System.out.println(dataInputStream.readUTF());
+                    //serverValue = Integer.parseInt(dataInputStream.readUTF());
+                    //score += conversion(serverValue);
+                    //System.out.println("Score now : " + score);
+                    //Loop back until stand
+                }
+                {
+                }
 
 
+                //System.out.println("Player One has : " + value);
+                //System.out.println(sh);
+                //selection = keyboard.nextInt();
 
-
-            //System.out.println("Player One has : " + value);
-            //System.out.println(sh);
-            //selection = keyboard.nextInt();
-
-            //while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
-            //System.out.println("Try Again Invalid Selection");
-            //System.out.println(sh);
-            //selection = keyboard.nextInt();
-            //}
+                //while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
+                //System.out.println("Try Again Invalid Selection");
+                //System.out.println(sh);
+                //selection = keyboard.nextInt();
+                //}
 
                 //out.writeUTF(Integer.toString(selection));
 
 
-        //client.close();
+                //client.close();
+           // }
+        }
     }
-
-
-
 }
+
