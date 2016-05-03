@@ -26,6 +26,14 @@ public class Client {
         inport = new Inport();
         inport.start();
     }
+    public static int conversion(int serverValue){
+        if(serverValue >= 10)
+        {
+            return 10;
+        }
+        else
+            return serverValue;
+    }
 
     /**
      * Handles all incoming data from this user.
@@ -67,6 +75,7 @@ public class Client {
         String selection = "";
         String serverName = "127.0.0.1"; //Our Server Name
         int score = 0;
+        int serverValue =0;
         String sh = "It's your turn. Enter 'H' for Hit or 'S' for stand) \n Score:"+score;
         int port = 9999; //Our Server port
         Scanner keyboard = new Scanner(System.in);
@@ -77,17 +86,23 @@ public class Client {
         OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
         DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
 
+        //InputStream is used for reading
+        InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
+        DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
+
         System.out.println("Just connected to " + client.getRemoteSocketAddress());
 
         while(selection.equals("S") == false || selection.equals("H") == false) {
-            while (selection != "S") {
+            while (selection.equals("H")) {
                 //Ask to Hit or Stand
                 System.out.println(sh);
                 selection = keyboard.nextLine();
                 //Send the H to the Server
-
+                out.writeUTF(selection);
+                out.flush( );
                 //And server score to our score
-
+                serverValue = Integer.parseInt(dataInputStream.readUTF());
+                score += conversion(serverValue);
                 //Loop back until stand
             }
         }
@@ -106,24 +121,7 @@ public class Client {
             //}
 
                 //out.writeUTF(Integer.toString(selection));
-                out.flush( );
 
-
-                //InputStream is used for reading
-                InputStream inputStream = client.getInputStream(); //Read the incoming stream as bytes
-                DataInputStream dataInputStream = new DataInputStream(inputStream); //Read the inputStream and convert to primative times
-
-
-        if(Integer.parseInt(dataInputStream.readUTF()) >= 11)
-        {
-            //score = 10;
-        }
-        else
-        {
-            //value = value + Integer.parseInt(dataInputStream.readUTF());
-        }
-
-        //System.out.println("New score : " + value); // Return what is read as a string
 
         //client.close();
     }
