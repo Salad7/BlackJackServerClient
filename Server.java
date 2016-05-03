@@ -82,13 +82,40 @@ public class Server extends Thread implements Runnable{
                         System.out.println("Player 1's Turn");
                         if(dataInputStream.readUTF().equals("H"))
                         {
-                            //Works
-                            System.out.println("d");
+                            //Generate a random number (Works)
+                            System.out.println(rand.nextInt(13)+1);
+
+                            //Send the random number in a outputbuffer (Works)
+                            dataOutputStream.write(rand.nextInt(13)+1);
+                            dataOutputStream.flush();
+                            clients.get(0).isTurn = false;
+                            clients.get(1).isTurn = true;
+                        }
+                        else
+                        {
+                        if(dataInputStream.readUTF().equals("S"))
+                        {
+                            //If player 2 stands, end game compare results
+                            //if(clients
+                            //Else say got s from client
+                        }
                         }
                     }
                     else if (clients.get(1).isTurn)
                     {
                         System.out.println("Player 2's Turn");
+                        if(dataInputStream.readUTF().equals("H"))
+                        {
+                            //Generate a random number (Works)
+                            System.out.println(rand.nextInt(13)+1);
+
+                            //Send the random number in a outputbuffer (Works)
+                            dataOutputStream.write(rand.nextInt(13)+1);
+                            dataOutputStream.flush();
+                            clients.get(1).isTurn = false;
+                            clients.get(0).isTurn = true;
+                        }
+
                     }
 
 
