@@ -11,10 +11,11 @@ import java.util.Scanner;
 
 public class Client {
 
-    static boolean isOver = true;
     private Socket socket;
     private boolean connected;
     private Inport inport;
+    static boolean isTurn = false;
+    String standOrHit = "";
 
     public Client(Socket newSocket)
     {
@@ -63,9 +64,7 @@ public class Client {
     }
 
     public static void main (String[] args) throws IOException{
-        String term = "";
         int selection = 0;
-        int score = 0;
         String serverName = "127.0.0.1"; //Our Server Name
         int value = 0;
         String sh = "Take a hit (1) or Stand (2)";
@@ -82,15 +81,15 @@ public class Client {
             OutputStream outputStream = client.getOutputStream(); //Create a stream for sending data
             DataOutputStream out = new DataOutputStream(outputStream); //Wrap that stream around a DataOutputStream
 
-            System.out.println("Player One has : " + value);
-            System.out.println(sh);
-            selection = keyboard.nextInt();
+            //System.out.println("Player One has : " + value);
+            //System.out.println(sh);
+            //selection = keyboard.nextInt();
 
-            while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
+            //while (__handler(selection) != 1 ){//&& __handler(selection) != 2) {
             System.out.println("Try Again Invalid Selection");
             System.out.println(sh);
             selection = keyboard.nextInt();
-            }
+            //}
 
                 out.writeUTF(Integer.toString(selection));
                 out.flush( );
@@ -103,7 +102,7 @@ public class Client {
 
         if(Integer.parseInt(dataInputStream.readUTF()) >= 11)
         {
-            score = 10;
+            //score = 10;
         }
         else
         {
@@ -115,20 +114,6 @@ public class Client {
         client.close();
     }
 
-    public static int __handler(int selection)
-    {
-     if(selection == 1)
-     {
-        return 1;
-     }
-     else if (selection == 2)
-     {
-        return 2;
-     }
-        else
-     {
-        return 999;
-     }
-     }
+
 
 }

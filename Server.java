@@ -13,6 +13,7 @@ public class Server extends Thread implements Runnable{
     private ServerSocket serverSocket;
     private Socket socket;
     private ArrayList<Client> clients = new ArrayList<Client>();
+    private boolean isGameOver = false;
 
     public Server(int port) throws  IOException
     {
@@ -27,22 +28,22 @@ public class Server extends Thread implements Runnable{
 
 
         //Just as we are awaiting,print to the user.
-        System.out.println("Waiting for client on port : " + serverSocket.getLocalPort() + " ... ");
+        System.out.println("Server started. Finding Clients...");
+        //System.out.println("Waiting for client on port : " + serverSocket.getLocalPort() + " ... ");
         Socket server = null;
 
 
 
         try {
-                // Get a client trying to connect
-                server = serverSocket.accept();
+            //If the server is accepted, connect the user
+            //System.out.println("Connection Established.");
+
+            // Get a client trying to connect
+            server = serverSocket.accept();
             // Client has connected
-            System.out.println("Player "+ clients.size()+1 +" has connected.");
+            System.out.println("Found Client "+ (clients.size()+1));
             // Add user to list
             clients.add(new Client(server));
-            ;
-
-            //If the server is accepted, connect the user
-            System.out.println("Just connected to " + server.getRemoteSocketAddress());
         }
         catch (IOException e)
         {
@@ -54,9 +55,25 @@ public class Server extends Thread implements Runnable{
             try {
                     socket = serverSocket.accept();
                 // Client has connected
-                System.out.println("Player "+ (clients.size()+1) +" has connected.");
+                System.out.println("Found Client "+ (clients.size()+1));
+                System.out.println("Initiating Game...");
                 // Add user to list
                 clients.add(new Client(socket));
+                clients.get(0).isTurn = false;
+
+                while(isGameOver == false || ((clients.get(0).standOrHit.equals("stand") && clients.get(1).standOrHit.equals("stand")) == false))
+                {
+                    if(clients.get(0).isTurn)
+                    {
+                        System.out.println("Player 1's Turn");
+                    }
+                    else if (clients.get(1).isTurn)
+                    {
+                        System.out.println("Player 2's Turn");
+                    }
+
+
+                }
                 //Read input from the client
                 //DataInputStream dataInputStream = new DataInputStream(server.getInputStream());
                 //If we decide to hit
@@ -87,11 +104,7 @@ public class Server extends Thread implements Runnable{
 
     }
 
-    int p1 = 0;
-    int p2 = 0;
-    int score = 0;
-    Random rand;
-    int temp = 0;
+
     public static void main(String [] args)
     {
         int port = 9999;
